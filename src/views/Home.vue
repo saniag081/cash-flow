@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Layout from '../Layout.vue';
-import Header from '../Header.vue';
+import Layout from '../components/Layout.vue';
+import Header from '../components/Header.vue';
 
 
 export default {

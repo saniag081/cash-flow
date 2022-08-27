@@ -19,7 +19,7 @@ export default {
     SplashScreen,
     Home: defineAsyncComponent(() => new Promise((resolve) => {
       setTimeout(() => {
-        resolve(import("./components/views/Home.vue"));
+        resolve(import("./views/Home.vue"));
       }, 2500);
     })),
   },
