@@ -43,38 +43,84 @@ export default {
   data() {
       return {
           amount: null,
-          amounts: [100, 200, 500, 200, -400, -600, -300, 0, 300, 500],
           movements: [{
               id: 1,
               title: "Movimiento",
               description: "Deposito de salario",
-              amount: "1000",
+              amount: 100,
+              time: new Date('9-28-2022'),
             },
             {
               id: 2,
               title: "Movimiento 1",
               description: "Deposito de honorarios",
-              amount: "500",
+              amount: 300,
+              time: new Date('9-29-2022'),
             },
             {
               id: 3,
               title: "Movimiento 3",
               description: "Comida",
-              amount: "-100",
+              amount: 800,
+              time: new Date('9-30-2022'),
             },
             {
               id: 4,
               title: "Movimiento 4",
               description: "Colegiatura",
-              amount: "1000",
+              amount: 1000,
+              time: new Date('10-2-2022'),
             },
             {
               id: 5,
               title: "Movimiento 5",
               description: "Reparación equipo",
-              amount: "1000",
-          },],
+              amount: 600,
+              time: new Date('10-3-2022'),
+            },
+            {
+              id: 6,
+              title: "Movimiento 6",
+              description: "Reparación equipo",
+              amount: 100,
+              time: new Date('10-4-2022'),
+            },
+            {
+              id: 7,
+              title: "Movimiento 7",
+              description: "Reparación equipo",
+              amount: 1000,
+              time: new Date('01-01-2022'),
+            },
+            {
+              id: 8,
+              title: "Movimiento 8",
+              description: "Reparación equipo",
+              amount: 1000,
+              time: new Date('01-01-2022'),
+            },
+          ],
       }
   },
+  computed: {
+    amounts() {
+      const lastDays = this.movements
+        .filter((move) => {
+          const today = new Date();
+          const oldDate = today.setDate(today.getDate() - 30);
+          
+          return move.time > oldDate;
+        })
+        .map((move) => move.amount);
+
+      return lastDays.map((move, i) => {
+        const lastMovements = lastDays.slice(0, i);
+
+        return lastMovements.reduce((suma, movement) => {
+          return suma + movement;
+        }, 0);
+      });
+    },
+  }
 };
 </script>
