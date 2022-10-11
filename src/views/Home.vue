@@ -6,7 +6,7 @@
     <template #resume>
         <Resume
           :label="'Ahorro total'"
-          :total-amount="1000000"
+          :total-amount="totalAmount"
           :amount="amount">
           <template #graphic>
             <Graphic :amounts="amounts" />
@@ -104,16 +104,34 @@ export default {
           ],
       }
   },
+  mounted() {
+    const movements = JSON.parse(localStorage.getItem("movements"));
+    if(Array.isArray(movements)) {
+      this.movements = movements?.map(item => (
+        { ...item, time: new Date(item.time) }
+      ));
+    }
+  },
   methods: {
     create(movement) {
       this.movements.push(movement);
+      this.save();
     },
     remove(id) {
       const index = this.movements.findIndex(m => m.id === id);
       this.movements.splice(index, 1);
+      this.save();
+    },
+    save() {
+      localStorage.setItem("movements", JSON.stringify(this.movements));
     },
   },
   computed: {
+    totalAmount() {
+      return this.movements.reduce((suma, movement) => {
+        return suma + movement.amount;
+      }, 0);
+    },
     amounts() {
       const lastDays = this.movements
         .filter((move) => {
